@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather web</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="card">
+        <div class="search">
+            <input type="text" placeholder="Enter City Name" spellcheck="false">
+            <button> <img src="https://cdn3.iconfinder.com/data/icons/feather-5/24/search-512.png" alt="Search">
+            </button>
+        </div>
+        <div class="error">
+            <p>
+                Invalid city name
+            </p>
+        </div>
+        <div class="weather">
+            <img src="https://t4.ftcdn.net/jpg/03/38/74/43/360_F_338744374_c8v4RyKnToRWqPA4SalFf8ktaMQA48QW.jpg"
+                alt="rain" class="weather-icon">
+            <h1 class="temp">25°c</h1>
+            <h2 class="city">Bhilai</h2>
+            <div class="detail">
+                <div class="col">
+                    <img src="https://static-00.iconduck.com/assets.00/humidity-icon-2048x1675-xxsge5os.png"
+                        alt="humidity">
+                    <div>
+                        <p class="Humidity">50%</p>
+                        <p>Humidity</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <img src="https://cdn-icons-png.flaticon.com/512/54/54298.png" alt="Wind">
+                    <div>
+                        <p class="Wind">7.6 km/h</p>
+                        <p>Wind speed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const apikey = "b8af2f72455a7c9ae28dabbb0e29b4a9";
+        const apiUrl = "https://api.openweathermap.org/data/2.5/weather?&units=metric&q=";
+
+        const searchBox = document.querySelector(".search input");
+        const searchBtn = document.querySelector(".search button");
+        const weatherIcon = document.querySelector(".weather-icon");
+
+        async function checkWeather(city) {
+            const response = await fetch(apiUrl + city + `&appid=${apikey}`);
+            if (response.status == 404) {
+                document.querySelector(".error").style.display = "block";
+                document.querySelector(".weather").style.display = "none";
+            }
+            else {
+                var data = await response.json();
+
+                document.querySelector(".city").innerHTML = data.name;
+                document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°c";
+                document.querySelector(".Humidity").innerHTML = data.main.humidity + "%";
+                document.querySelector(".Wind").innerHTML = data.wind.speed + " km/h";
+
+                if (data.weather[0].main == "Clouds") {
+                    weatherIcon.scr = "https://cdn-icons-png.flaticon.com/512/4834/4834559.png";
+                }
+                else if (data.weather[0].main == "Clear") {
+                    weatherIcon.src = "https://static-00.iconduck.com/assets.00/weather-clear-symbolic-icon-2048x2048-v4afvu7m.png";
+                }
+                else if (data.weather[0].main == "Rain") {
+                    weatherIcon.src = "https://cdn2.iconfinder.com/data/icons/weather-flat-14/64/weather07-512.png";
+                }
+                else if (data.weather[0].main == "Drizzle") {
+                    weatherIcon.src = "https://cdn-icons-png.flaticon.com/512/1458/1458966.png";
+                }
+                else if (data.weather[0].main == "Mist") {
+                    weatherIcon.src = "https://cdn-icons-png.flaticon.com/512/4005/4005901.png";
+                }
+                document.querySelector(".weather").style.display = "block";
+                document.querySelector(".error").style.display = "none";
+
+
+            }
+
+        }
+        searchBtn.addEventListener("click", () => {
+            checkWeather(searchBox.value);
+        })
+    </script>
+</body>
+
+</html>
