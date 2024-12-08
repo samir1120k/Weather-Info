@@ -6,7 +6,7 @@ Welcome to the **Weather Web** project! This simple web application allows users
 
 ## 🚀 Live Demo
 
-Check out the live version of the project here: [Weather Web Live](PASTE_YOUR_DEPLOYMENT_LINK_HERE)
+Check out the live version of the project here: [Weather Web Live](https://denim-sore-jackrabbit.glitch.me)
 
 ---
 
